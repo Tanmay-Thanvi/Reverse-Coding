@@ -481,7 +481,7 @@ body{
       height: 40px;
     }
     .mypisblogos{
-      width: 90vw;
+      width: 80vw;
       /* display: grid; */
       margin-left: auto;
       margin-right: auto;
@@ -551,10 +551,11 @@ body{
     .mypisblogos{
       /* width: 50vw; */
       height:80vh;
+      width: 60vw;
       /* display: grid;
       margin-top: auto;
       margin-bottom: auto; */
-      margin-left: -15vw;
+      margin-left: -25vw;
       /* margin-top: 50px; */
       margin-top: 5vh;
     }
