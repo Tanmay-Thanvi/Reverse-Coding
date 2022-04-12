@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="robots" content="noindex">
+    <title>Leader Board</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    
+</head>
+<style>
+    #dataTable td,
+    #dataTable th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    #dataTable tr {
+        transition: transform 0.3s ease-in-out;
+    }
+
+    #dataTable tr:nth-child(odd) {
+        background-color: white;
+    }
+
+    #dataTable tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    #dataTable tbody tr:hover {
+        /* background-color: #ddd; */
+        font-weight: bold;
+        transform: scale(1.02);
+        cursor : pointer;
+    }
+
+    #dataTable th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #343a40;
+        color: white;
+    }
+
+    .page-item.active .page-link {
+        color: #fff !important;
+        background-color: #343a40 !important;
+        border-color: #343a40 !important; 
+    }
+
+    .page-link {
+        color: #343a40 !important;
+        background-color: #fff !important;
+        border: 1px solid #dee2e6 !important; 
+    }
+
+    .page-link:hover {
+        color: #fff !important;
+        background-color: #31363a !important;
+        border-color: #31363a !important; 
+    }
+
+    .navbarr {
+    background-color: black;
+    margin: 0px;
+    padding: 2px;
+  /* background-color: #1f2833; */
+
+  }
+  .navii>img{
+      height: 52px;
+  }
+  
+  .stroke ul li a,
+  .stroke ul li a:after,
+  .stroke ul li a:before {
+    transition: all 0.5s;
+    color: white;
+  }
+  .stroke ul li a:hover {
+    color: lightgrey;
+  }
+  
+  .stroke ul li a {
+    position: relative;
+  }
+  
+  .stroke ul li a:after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 0%;
+    content: ".";
+    color: transparent;
+    background: #aaa;
+    height: 1px;
+  }
+  .stroke ul li a:hover:after {
+    width: 100%;
+  }
+  .footerr{
+    clear: both;
+    position:relative;
+    background-color: black;
+}
+
+body{
+    background: radial-gradient(rgb(37, 37, 37),#121212);
+    height: calc(100vh - 112px);
+}
+
+#dataTable th{
+    background-color: #39998e;
+    color: white;
+    text-align: center;
+}
+
+div.dataTables_wrapper div.dataTables_filter {
+    color: white;
+}
+
+div.dataTables_wrapper div.dataTables_length label{
+    color: white;
+}
+
+#dataTable td, #dataTable th {
+    border: 1px solid aquamarine;
+    padding: 5px;
+    }
+
+#dataTable tr{
+    border-radius: 10px;
+}
+
+div.dataTables_wrapper div.dataTables_filter input {
+    background-color: transparent;
+    color: white;
+}
+
+div.dataTables_wrapper div.dataTables_length select {
+    background-color: transparent;
+    color: white;
+}
+
+.paginate_button{
+    background-color: #121212;
+    color: white;
+}
+.paginate_button:hover{
+    background-color: #39998e;
+    color: #121212;
+    transition: ease-in,1s;
+}
+div.dataTables_wrapper div.dataTables_info {
+    color: white;
+}
+.dataTables_length,.dataTables_info{
+    text-align: left;
+}
+</style>
+
+<body >
+    <nav class="navbar navbar-expand-lg navbarr" style="padding: 0px 16px;">
+        <div class="container-fluid">
+          <a class="navbar-brand navvi" href="{% url 'login' %}" style="padding: 0px;"><img src="{% static 'img/rclogo.png' %}" alt="RC Logo"
+              height="42px" style="margin:10px;"></a>
+          <!-- <a class="navbar-brand navvi timer" href="#" style="margin-left: 20px;">TIMER </a> -->
+    
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-bars" style="color: white;"></i>
+          </button>
+          <div class="collapse navbar-collapse stroke" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+              <!-- <li class="nav-item">
+                <a class="nav-link navvi" aria-current="page" href="#"
+                  style="margin-left: 10px;margin-right: 10px;">Instructions</a>
+              </li> -->
+              <!-- <li class="nav-item">
+                <a class="nav-link navvi" aria-current="page" href="#"
+                  style="margin-left: 10px;margin-right: 10px;">Hints</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link navvi" aria-current="page" href="#"
+                  style="margin-left: 10px;margin-right: 10px;">Score : </a>
+              </li> -->
+              <!-- <li class="nav-item navvi">
+                <a class="nav-link " style="margin-left: 10px;margin-right: 10px;" data-bs-toggle="modal" data-bs-target="#logoutmodal">Logout
+                </a>
+              </li> -->
+                <!-- Modal -->
+                <!-- <div class="modal fade" id="logoutmodal" tabindex="-1" aria-labelledby="logoutmodalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content" style="background-color: black;color: white;border: 1px solid aquamarine;">
+                      <div class="modal-header" >
+                        <h5 class="modal-title " id="logoutmodalLabel">Alert!</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        Are you sure you want to logout ?
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-danger">Logout</button>
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
+            </ul>
+          </div>
+          <a class="navbar-brand navvi pisblogo" href="#" style="padding: 0px; margin-left: 20px;"><img src="{% static 'img/pisblogo.png' %}"
+              alt="PISB Logo" height="30px"></a>
+        </div>
+      </nav>
+      <!-- <img
+                src="https://st2.depositphotos.com/44273736/46169/v/600/depositphotos_461692140-stock-illustration-glyph-design-icon-ranking.jpg"
+                alt="leaderboard" height="50px" width="50px"> -->
+    <div class="container " style="text-align: center;">
+        <br>
+        <h3 style="color: #ffdc7c;">  Leader-Board Panel</h3> 
+        <!-- <a href="{% url 'leaderboard' %}"><button
+                type="button" class="btn btn-outline-secondary btn-sm">Refresh Page</button></a> -->
+        <!-- <input type="button" value="Refresh Page"> -->
+        <!-- Results will get reloaded in <strong> every 1 minute 30 seconds </strong> <br> -->
+        <h6 style="color: white;"><span style="cursor: wait;" style="color: white;"> Page will reload in : <strong><span id="timer"></span></strong> </span></h6>
+        <div class="container">
+            <table class="table table-bordered table-dark" id="dataTable" width="100%" cellspacing="0" style="border:1px solid aquamarine;">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Name</th>
+                        <th>Score</th>
+                        <th>Quiz Complete</th>
+                        <th>Time taken</th>
+                    </tr>
+                </thead>
+                <!-- <tfoot>
+                <tr>
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th>Office</th>
+                    <th>Age</th>
+                    <th>Salary</th>
+                </tr>
+            </tfoot> -->
+                <tbody>
+
+                    {% for j in profile %}
+                    <tr>
+                        <td>
+                            {% if forloop.counter == 1 %}
+                            🥇
+                            {% elif forloop.counter == 2 %}
+                            🥈
+                            {% elif forloop.counter == 3 %}
+                            🥉
+                            {% else %}
+                            {{ forloop.counter }}
+                            {% endif %}
+                        </td>
+                        <td>{{j.user.first_name}} {{j.user.last_name}}</td>
+                        <td>
+                            {{j.score}}
+                        </td>
+                        <td>
+                            {% if j.CompTime != None %}
+                            ✓
+                            {% else %}
+                            ✗
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if j.Timetaken == None %}
+                                (Not completed)
+                            {% else %}
+                            {{j.Timetaken|slice:":7"}}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div style="display:block;height:70px;"></div>
+    <footer class="text-center fixed-bottom footerr">
+        <div class="container-fluid">
+          <div class="footer-text pt-3 pb-3" style="color: #d1f7ff;">PISB <span>&copy</span></div>
+        </div>
+      </footer>
+
+    <link href="https://static.geekinsta.com/demo/table-with-search-and-sort/assets/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://static.geekinsta.com/demo/table-with-search-and-sort/assets/datatables.bootstrap4.min.css"
+        rel="stylesheet">
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="https://static.geekinsta.com/demo/table-with-search-and-sort/assets/jquery.min.js"></script>
+
+    <!-- Page level plugin JavaScript-->
+    <script src="https://static.geekinsta.com/demo/table-with-search-and-sort/assets/jquery.datatables.min.js"></script>
+
+    <script
+        src="https://static.geekinsta.com/demo/table-with-search-and-sort/assets/datatables.bootstrap4.min.js"></script>
+    <script>
+        
+        $(document).ready(function () {
+            t = $('#dataTable').DataTable();
+            /* t.on( 'order.dt search.dt', function () {
+                t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                    cell.innerHTML = i+1;
+                } );
+            } ).draw(); */
+        });
+        $('table').dataTable({
+            "aaSorting": [[2, "desc"], [4, "asc"]]
+        });
+
+    </script>
+    <script>
+        document.getElementById('timer').innerHTML =
+            1 + ":" + 31;
+        startTimer();
+
+
+        function startTimer() {
+            var presentTime = document.getElementById('timer').innerHTML;
+            var timeArray = presentTime.split(/[:]+/);
+            var m = timeArray[0];
+            var s = checkSecond((timeArray[1] - 1));
+            if (s == 59) { m = m - 1 }
+            if (m < 0) {
+                return
+            }
+
+            document.getElementById('timer').innerHTML =
+                m + ":" + s;
+            if(m == 0 && s == 0){
+                location.reload();
+            }
+            console.log(m)
+            setTimeout(startTimer, 1000);
+
+        }
+
+        function checkSecond(sec) {
+            if (sec < 10 && sec >= 0) { sec = "0" + sec }; // add zero in front of numbers < 10
+            if (sec < 0) { sec = "59" };
+            return sec;
+        }
+    </script>
+</body>
+
+</html>
