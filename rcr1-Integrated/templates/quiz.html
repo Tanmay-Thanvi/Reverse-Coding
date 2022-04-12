@@ -173,7 +173,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                  <a href="{% url 'logout' %}">
+                  <a href="{% url 'finish' %}">
                   <button type="button" class="btn btn-danger">Logout</button>
                   </a>
                 </div>
@@ -316,12 +316,12 @@
             {% csrf_token %}
             <input type="text" name="id" value="{{q.id}}" style="display: none;">
             <div class="at1 form-floating">
-              <input type="text" class="form-control" name="ans" id="att1" placeholder=" Attempt 1"
+              <input type="number" class="form-control" name="ans" id="att1" placeholder=" Attempt 1"
                 style="margin-top:10px;">
               <label for="att1" style="color: black;">Attempt 1</label>
             </div>
             <div class="at2 form-floating">
-              <input type="text" class="form-control" id="att2" placeholder=" Attempt 2"
+              <input type="number" class="form-control" id="att2" placeholder=" Attempt 2"
                 style="margin-top:20px;cursor: not-allowed;" disabled>
               <label for="att2" style="color: black;">Attempt 2</label>
             </div>

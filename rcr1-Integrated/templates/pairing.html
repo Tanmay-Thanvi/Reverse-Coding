@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paring Page</title>
+</head>
+<body>
+    <form action="{% url 'pair' %}" method="post"><br>
+        {% csrf_token %}
+        User1 : <input type="text" name="user1" placeholder="Will Play"> <br><br>
+        User2 : <input type="text" name="user2" placeholder="Will Discard"> <br><br>
+        <input type="submit" value="Submit">
+    </form>
+    <br><br>
+    {% for i in messages %}
+        {{i}}
+    {% endfor %}
+</body>
+</html>

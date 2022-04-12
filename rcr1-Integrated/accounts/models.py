@@ -16,6 +16,7 @@ class Profile(models.Model):
    zone = models.CharField(max_length=100,default="Red")
    zone_activate = models.BooleanField(default=False)
    riddle_activate = models.BooleanField(default=False)
+   teamwith = models.CharField(max_length=200,null=True,blank=True)
    
    def __str__(self):
     return self.user.username

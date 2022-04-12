@@ -27,7 +27,7 @@ class response(models.Model):
     r2_time = models.DateTimeField(null=True)
 
     def __str__(self):
-        return self.user.first_name+f' ({self.response1})'+f' ({self.response2})'
+        return self.user.username+f' ({self.response1})'+f' ({self.response2})'
 
 class userlist(models.Model):
     user= models.ForeignKey(User,on_delete=models.CASCADE,default=None)
@@ -38,4 +38,4 @@ class userlist(models.Model):
     markingscheme = models.CharField(max_length=100,default='4,2')
 
     def __str__(self):
-        return self.user.first_name
+        return self.user.username

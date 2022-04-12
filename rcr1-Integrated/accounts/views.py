@@ -24,6 +24,7 @@ def login(request):
         password = request.POST['password']
 
         # Check User API
+
         # payload = {
         #     "username": username,
         #     "password": password,
@@ -42,6 +43,32 @@ def login(request):
         #     print("User Does not Exist")
         #     return
 
+        url = "https://backend.credenz.in/api/check_user/"
+        payload={'username': username,
+                'password': password,
+                'event': 'Reverse Coding'
+                }
+        response = requests.request("POST", url, data=payload)
+        if response.status_code == 200:
+            data = response.json()
+            print(data['senior'])
+            user = User.objects.create_user(username=username, password=password, email="dummy@gmail.com", first_name="dummyfname", last_name="dummylname")
+            user.save()
+        else:
+            url = "https://registrations.credenz.in/api/event_players/check_user/"
+            payload={'username': username,
+                    'password': password,
+                    'event': 'Reverse Coding'
+                }
+            response = requests.request("POST", url, data=payload)
+            if response.status_code == 200:
+                data = response.json()
+                print(data['senior'])
+                user = User.objects.create_user(username=username, password=password, email="dummy@gmail.com", first_name="dummyfname", last_name="dummylname")
+                user.save()
+            else:
+                messages.error(request,"User does exist")
+                return render(request, 'login.html', {'title': 'Login'})
         if User.objects.filter(username=username).exists():
             user = auth.authenticate(username=username, password=password)
             if user is not None:
@@ -142,3 +169,23 @@ def leaderboard(request):
     profile = Profile.objects.all().order_by('-score', 'Timetaken')
     # print(profile)
     return render(request, 'leaderboard.html', {'users': users, 'profile': profile})
+
+def pair(request):
+    if request.user.is_authenticated:
+        if request.user.is_staff:
+            if request.method == "POST":
+                user1 = request.POST['user1']  # will play
+                user2 = request.POST['user2']  # will discard
+                user = User.objects.get(username=user2)
+                la = Profile.objects.get(user=user) 
+                la.has_started = True
+                la.teamwith = user1
+                la.save()
+                messages.success(request,"Users get teamed.")
+            return render(request,'pairing.html')
+        else:
+            messages.error(request,"You are not allowed to this page")
+            return redirect(login)
+    else:
+        messages.error(request,"Please login first")
+        return redirect(login)

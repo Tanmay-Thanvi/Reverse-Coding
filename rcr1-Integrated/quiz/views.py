@@ -133,7 +133,7 @@ def home(request):
             # print(la.zone,"after function return")
             ul = userlist.objects.get(user=request.user)
             id = int(request.POST['id'])
-            ans = request.POST['ans']
+            ans = (request.POST['ans']).replace(" ", "")
             li = texttolist(ul.unattemptedlist)
             al = texttolist(ul.attemptedlist)
             cl = texttolist(ul.correctlist)
@@ -147,7 +147,8 @@ def home(request):
                 r1 = response.objects.create(
                     user=la.user, queid=cans, response1=ans, r1_time=time_1)
                 r1.save()
-                if cans.answer == ans:
+                print(cans.answer,type(cans.answer),ans,type(ans))
+                if int(cans.answer) == int(ans):
                     ms = texttolist(ul.markingscheme)
                     la.score = la.score + int(ms[0])
                     la.save()
