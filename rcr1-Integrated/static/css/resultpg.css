@@ -254,7 +254,8 @@ border-radius: 50px;
     width: calc(33% - 10px);
     /* background-color: tomato; */
     margin: 5px;
-    /* height: 100px; */
+    height: 60px;
+    object-fit: contain;
     /* height: calc(40% - 30px); */
 }
 .s>img{
