@@ -51,9 +51,12 @@ def login(request):
         response = requests.request("POST", url, data=payload)
         if response.status_code == 200:
             data = response.json()
-            print(data['senior'])
-            user = User.objects.create_user(username=username, password=password, email="dummy@gmail.com", first_name="dummyfname", last_name="dummylname")
-            user.save()
+            print(data)
+            print("Senior : ",data['senior'])
+            print("Bool Check : ",bool(User.objects.filter(username=username).exists()))
+            if not(User.objects.filter(username=username).exists()):
+                user = User.objects.create_user(username=username, password=password, email="dummy@gmail.com", first_name="dummyfname", last_name="dummylname")
+                user.save()
         else:
             url = "https://registrations.credenz.in/api/event_players/check_user/"
             payload={'username': username,
@@ -63,9 +66,11 @@ def login(request):
             response = requests.request("POST", url, data=payload)
             if response.status_code == 200:
                 data = response.json()
-                print(data['senior'])
-                user = User.objects.create_user(username=username, password=password, email="dummy@gmail.com", first_name="dummyfname", last_name="dummylname")
-                user.save()
+                print("Senior : ",data['senior'])
+                print("Bool Check : ",bool(User.objects.filter(username=username).exists()))
+                if not(User.objects.filter(username=username).exists()):
+                    user = User.objects.create_user(username=username, password=password, email="dummy@gmail.com", first_name="dummyfname", last_name="dummylname")
+                    user.save()
             else:
                 messages.error(request,"User does exist")
                 return render(request, 'login.html', {'title': 'Login'})
