@@ -1,10 +1,11 @@
 # Reverse-Coding
 
-1. Tanmay Thanvi \n
-2. Rohan Jadhav \n
-3. Aditya Shinde \n
-4. Harsh Bhat \n
+Backend Team
+1. Tanmay Thanvi <br/>
+2. Rohan Jadhav <br/>
+3. Aditya Shinde <br/>
+4. Harsh Bhat <br/>
 
-
-1. Yash Patil \n
-2. Kedar Koshti \n
+Frontend Team
+1. Yash Patil <br/>
+2. Kedar Koshti <br/>
